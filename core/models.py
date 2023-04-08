@@ -19,6 +19,8 @@ class UserManager(BaseUserManager):
 
     def create_user(self, email, password=None, **extra_fields):
         """Create save and return a new user"""
+        if not email:
+            raise ValueError("Users must have an email address")
         # extrafield is useful when we have extra fields
         user = self.model(email=self.normalize_email(email), **extra_fields)
         # takes in the provided passsword and encrypts it
@@ -26,9 +28,19 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
+    def create_superuser(self, email, password, **extra_fields):
+        """create and returm superuser"""
 
+        user = self.create_user(email, password)
+        user.is_superuser = True
+        user.is_staff = True
+        user.save(using=self._db)
+
+        return user
 # overriding the default User
 # abstractBaseUser : functionality of authentican sysytem ,permissionsmixin : functionality of permisssions and  has fields
+
+
 class User(AbstractBaseUser, PermissionsMixin):
     """User in the system"""
 
