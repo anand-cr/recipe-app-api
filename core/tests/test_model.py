@@ -1,8 +1,11 @@
 """
 Tests for models.
 """
+from decimal import Decimal
+
 from django.test import TestCase
 from django.contrib.auth import get_user_model
+from core import models
 # NOTE: It is best practive to get the user model using get_user_model
 
 
@@ -50,3 +53,5 @@ class ModelTests(TestCase):
 
         self.assertTrue(user.is_superuser)
         self.assertTrue(user.is_staff)
+
+# write the tests

@@ -8,7 +8,7 @@ from core import models
 # Register your models here.
 
 
-# NOTE: customising the default useradmin
+# NOTE5: customising the default useradmin
 # Import useradmina s baseuseradmin
 # and add ordering and list display
 # then register and specify to use the custom UserAdmin we created
@@ -35,8 +35,9 @@ class UserAdmin(BaseUserAdmin):
         (None, {
             'classes': ('wide',),  # this is to add css class
             'fields': ('email', 'password1', 'password2', 'name', 'is_active', 'is_staff', 'is_superuser',)
-        }),  # NOTE:TypeError at /admin/core/user/add/cannot unpack non-iterable NoneType object if you miss this coma cuz it wont be tuple else
+        }),  # NOTE:ERROR: TypeError at /admin/core/user/add/cannot unpack non-iterable NoneType object if you miss this coma cuz it wont be tuple else
     )
 
 
 admin.site.register(models.User, UserAdmin)
+admin.site.register(models.Recipe)  # no custom manager here
