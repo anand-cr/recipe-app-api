@@ -78,5 +78,27 @@ class Recipe(models.Model):
     price = models.DecimalField(max_digits=5, decimal_places=2)
     link = models.CharField(max_length=255, blank=True)
 
+    # add this after creating the tag field
+    # Many different recipes can have many different tags
+    # tags here is a related field and expected to be passed in sepaerately
+    tags = models.ManyToManyField('Tag')
+
     def __str__(self):
         return self.title
+
+# NOTE11: Creating the tag
+# add the tag feature to the recipe model
+# register in admin
+# add the serializer in recipe (check there)
+
+
+class Tag(models.Model):
+    """tag for filtering recipes"""
+    name = models.CharField(max_length=225)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
+
+    def __str__(self):
+        return self.name
