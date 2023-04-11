@@ -82,6 +82,7 @@ class Recipe(models.Model):
     # Many different recipes can have many different tags
     # tags here is a related field and expected to be passed in sepaerately
     tags = models.ManyToManyField('Tag')
+    ingredients = models.ManyToManyField('Ingredient')
 
     def __str__(self):
         return self.title
@@ -99,6 +100,19 @@ class Tag(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
     )
+
+    def __str__(self):
+        return self.name
+
+# NOTE12: Ingredients API
+# add the feature in recipe
+
+
+class Ingredient(models.Model):
+    """Ingredient object"""
+    name = models.CharField(max_length=225)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name

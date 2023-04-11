@@ -5,7 +5,7 @@
 # from rest_framework.authtoken.views import ObtainAuthToken
 # from rest_framework.settings import api_settings
 #
-from core.models import Recipe, Tag
+from core.models import Recipe, Tag, Ingredient
 from rest_framework import viewsets, mixins
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
@@ -63,4 +63,15 @@ class TagViewSet(mixins.UpdateModelMixin, mixins.DestroyModelMixin, mixins.ListM
     # without this it will show all the tags for all the users
     def get_queryset(self):
         """Filter queryset to authenticated user"""
+        return self.queryset.filter(user=self.request.user).order_by('-name')
+
+
+class IngredientViewSet(mixins.UpdateModelMixin, mixins.DestroyModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet):
+    """View for managing ingredients"""
+    serializer_class = serializers.IngredientSerializer
+    queryset = Ingredient.objects.all()
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
         return self.queryset.filter(user=self.request.user).order_by('-name')
